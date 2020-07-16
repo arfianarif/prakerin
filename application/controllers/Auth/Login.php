@@ -60,7 +60,9 @@ class Login extends CI_Controller
 				);
 			}
 			$this->session->set_userdata($sess_data);
-			redirect('Dashboard');
+			if ($this->session->nama == 'admin') {
+				redirect('Admin/Dashboard');
+			}
 		} else {
 			echo "Error";
 		}
