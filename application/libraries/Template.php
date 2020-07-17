@@ -17,13 +17,14 @@ class Template
 			return NULL;
 		} else {
 
-			if (file_exists(APPPATH . 'views/menu/' . $this->CI->session->nama . '.php')) {
-				$this->template['nav'] = $this->menu['menu'] = $this->CI->load->view('menu/' . $this->CI->session->nama, $data, true);
+			if (file_exists(APPPATH . 'views/menu/' . $this->CI->session->previllage . '.php')) {
+				$this->template['nav'] = $this->menu['menu'] = $this->CI->load->view('menu/' . $this->CI->session->previllage, $data, true);
 			} else {
 				$this->template['nav'] = "";
 			}
 
 			$this->template['content']         = $this->CI->load->view($content, $data, TRUE);
+
 
 			return $this->CI->load->view('Template/base', $this->template);
 		}

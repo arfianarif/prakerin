@@ -4,28 +4,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class MLogin extends CI_Model
 {
 
-	public function authentication($post)
+	public function authentication()
 	{
-		$post = $this->input->post();
-
 		$email = $this->input->post('email');
 		$password = $this->input->post('pass');
-		// echo "<pre>";
-		// print_r($password);
-		// exit;
-		$sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
-		// $all = $this->db->query($sql, array($username, $password))->result_array();
-		$all = $this->db->query($sql)->row_array();
+		$array = array('email' => $email, 'password' => $password);
+		$admin = $this->db->get_where('m_admin', $array)->row_array();
+		$guru = $this->db->get_where('m_guru', $array)->row_array();
+		$tata_usaha = $this->db->get_where('m_tata_usaha', $array)->row_array();
+		$siswa = $this->db->get_where('m_siswa', $array)->row_array();
 
-		// echo "<pre>";
-		// print_r($all);
-		// exit;
-
-		return $all;
-		// $username = $post['nis'];
-		// $password = $post['pass'];
-
-		// echo $username;
-		// echo $password;
+		if (isset($admin)) {
+			$role = $this->db->get('role')->result_array();
+			$admin['role'] = $role;
+			return $admin;
+		} elseif (isset($guru)) {
+			return $guru;
+		} elseif (isset($tata_usaha)) {
+			return $tata_usaha;
+		} elseif (isset($siswa)) {
+			return $siswa;
+		} else {
+			return null;
+		}
 	}
 }

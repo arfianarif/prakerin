@@ -21,31 +21,31 @@
 </head>
 
 <body class="bg-gradient-primary">
+    <div class="container-fluid ">
+        <div class="row justify-content-center mt-4">
 
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-
-            <div class="col-xl-6 col-lg-6 col-md-3 mt-5">
+            <div class="col-lg-6">
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
+                        <div class="row">
 
-
-                        <?php if (isset($content)) : ?>
-                            <?= $content ?>
-                        <?php endif; ?>
-
+                            <div class="col-lg-12">
+                                <?php if (isset($content)) : ?>
+                                    <?= $content ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
             </div>
 
         </div>
-
     </div>
+
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url() . 'assets/base/' ?>vendor/jquery/jquery.min.js"></script>
