@@ -33,10 +33,10 @@
                             <td><?= $key->email ?></td>
                             <td><?= $key->password ?></td>
                             <td align="center">
-                                <a href="#" id="detail-btn" data-id="<?= $key->id ?>" class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#detail">
+                                <a href="#" data-id="<?= $key->id ?>" class="detail-btn btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#detail">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
-                                <button id="edit-btn" class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#edit" data-id="<?= $key->id ?>">
+                                <button class="edit-btn btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#edit" data-id="<?= $key->id ?>">
                                     <i class="fas fa-exclamation-triangle"></i>
                                 </button>
                                 <a href="<?= base_url() . 'Admin/Master_Data/Siswa/Delete/' . $key->id ?>" class="btn btn-danger btn-circle btn-sm">
@@ -173,13 +173,13 @@
     });
 
     function modalEdit() {
-        $('#edit-btn').click(function() {
-
+        $('.edit-btn').click(function() {
+            let base_url = "<?php echo base_url() . 'Admin/Master_Data/Siswa/' ?>";
             let id = $(this).data('id');
             console.log(id);
 
             $.ajax({
-                url: '<?php echo base_url() . '#' ?>',
+                url: base_url + 'getData/' + id,
                 type: "POST",
 
                 dataType: "json",
@@ -193,18 +193,18 @@
     }
 
     function modalDetail() {
-        $('#detail-btn').click(function() {
-
+        $('.detail-btn').click(function() {
+            let base_url = "<?php echo base_url() . 'Admin/Master_Data/Siswa/' ?>";
             let id = $(this).data('id');
             console.log(id);
 
             $.ajax({
-                url: '<?php echo base_url() . '#' ?>',
+                url: base_url + 'getData/' + id,
                 type: "POST",
 
                 dataType: "json",
                 success: function(response) {
-                    console.log(response);
+                    console.log(response); 
 
                     $('#detail').modal('show');
                 }

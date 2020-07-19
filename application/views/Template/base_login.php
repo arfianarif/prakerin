@@ -30,8 +30,7 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-
-                            <div class="col-lg-12">
+                            <div class="col-lg">
                                 <?php if (isset($content)) : ?>
                                     <?= $content ?>
                                 <?php endif; ?>
