@@ -1,4 +1,4 @@
-<li class="nav-item active">
+<li class="nav-item ">
     <a class="nav-link" href="<?= base_url() . 'Admin/Dashboard' ?>">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span>
@@ -14,7 +14,7 @@
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-cog"></i>
         <span>Master Data</span>
     </a>

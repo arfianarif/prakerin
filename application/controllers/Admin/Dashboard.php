@@ -15,6 +15,7 @@ class Dashboard extends CI_Controller
     public function index()
     {
         // $this->data['nav'] = $this->load->view();
-        $this->template->load('Admin/Dashboard/dashboard');
+        $this->data['nav_item'] = '1';
+        $this->template->load('Admin/Dashboard/dashboard', $this->data);
     }
 }

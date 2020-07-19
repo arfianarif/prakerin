@@ -28,17 +28,12 @@
 					<?php $i = 1;
 					foreach ($content as $key) : ?>
 						<tr>
-							<?= $key->id ?>
 							<td align="center"><?= $i++ ?></td>
 							<td><?= $key->email ?></td>
 							<td><?= $key->password ?></td>
 							<td align="center">
-								<!-- <a href="#" data-id="<?php //echo $key->id 
-																					?>" class="detail-btn btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#detail">
-									<i class="fas fa-info-circle"></i>
-								</a> -->
 								<button class="edit-btn btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#edit" data-id="<?= $key->id ?>">
-									<i class="fas fa-exclamation-triangle"></i>
+									<i class="fas fa fa-edit"></i>
 								</button>
 								<a href="<?= base_url() . 'Admin/Master_Data/Siswa/Delete/' . $key->id ?>" class="btn btn-danger btn-circle btn-sm">
 									<i class="fas fa-trash"></i>
