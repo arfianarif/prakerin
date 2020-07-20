@@ -21,7 +21,7 @@ class Guru extends CI_Controller
         $data = array(
             'email' => $this->input->post('email'),
             'password' => $this->input->post('password'),
-            'id_role' => 2
+            'id_role' => 2,
         );
         $this->db->insert('m_guru', $data);
         redirect('Admin/Master_Data/Guru');
@@ -46,8 +46,8 @@ class Guru extends CI_Controller
             'email'  => $this->input->post('email'),
             'password'  => $this->input->post('password'),
             'nama_guru'  => $this->input->post('nama_guru'),
-            'ttl'  => $this->input->post('ttl'),
-            'alamat'  => $this->input->post('alamat'),
+            'nik'  => $this->input->post('nik'),
+            'id_role' => 2,
         );
         $status = $this->db->replace('m_guru', $data);
         // 	echo json_encode($status);

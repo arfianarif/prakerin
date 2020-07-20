@@ -40,7 +40,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-compress"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">PKL</div>
+                <div class="sidebar-brand-text mx-3">pra ker in</div>
             </a>
 
             <!-- Divider -->

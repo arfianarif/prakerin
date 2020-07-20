@@ -46,8 +46,10 @@ class Siswa extends CI_Controller
 			'email'  => $this->input->post('email'),
 			'password'  => $this->input->post('password'),
 			'nama_siswa'  => $this->input->post('nama_siswa'),
+			'nis'  => $this->input->post('nis'),
 			'ttl'  => $this->input->post('ttl'),
 			'alamat'  => $this->input->post('alamat'),
+			'id_role' => 4,
 		);
 		$status = $this->db->replace('m_siswa', $data);
 		// 	echo json_encode($status);

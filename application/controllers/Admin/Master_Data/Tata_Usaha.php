@@ -45,9 +45,9 @@ class Tata_Usaha extends CI_Controller
             'id' => $this->input->post('id'),
             'email'  => $this->input->post('email'),
             'password'  => $this->input->post('password'),
-            'nama_tata_usaha'  => $this->input->post('nama_tata_usaha'),
-            'ttl'  => $this->input->post('ttl'),
-            'alamat'  => $this->input->post('alamat'),
+            'nama'  => $this->input->post('nama'),
+            'nik'  => $this->input->post('nik'),
+            'id_role' => 3,
         );
         $status = $this->db->replace('m_tata_usaha', $data);
         // 	echo json_encode($status);

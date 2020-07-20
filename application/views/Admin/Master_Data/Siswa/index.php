@@ -18,6 +18,7 @@
 				<thead>
 					<tr>
 						<th width="5%" align="center">#</th>
+						<th>NIS</th>
 						<th>Email</th>
 						<th>Password</th>
 						<th width="12%">Action</th>
@@ -29,6 +30,7 @@
 					foreach ($content as $key) : ?>
 						<tr>
 							<td align="center"><?= $i++ ?></td>
+							<td><?= $key->nis ?></td>
 							<td><?= $key->email ?></td>
 							<td><?= $key->password ?></td>
 							<td align="center">
@@ -116,10 +118,22 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group">
-					<label for="nama_siswa">Nama</label>
-					<input type="text" class="form-control" id="nama_siswa_edit" name="nama_siswa" placeholder="Text Here">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="nis">NIS</label> <br>
+							<input type="text" class="form-control" id="nis-edit" name="nis" placeholder="Text Here">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="nama_siswa">Nama</label>
+							<input type="text" class="form-control" id="nama_siswa_edit" name="nama_siswa" placeholder="Text Here">
+						</div>
+					</div>
 				</div>
+
+
 				<div class="form-group">
 					<label for="ttl">Tempat Tanggal Lahir </label> <br>
 
@@ -199,6 +213,7 @@
 					$('#email-edit').val(response.email);
 					$('#password-edit').val(response.password);
 					$('#nama_siswa_edit').val(response.nama_siswa);
+					$('#nis-edit').val(response.nis);
 					$('#ttl-edit').val(response.ttl);
 					$('#alamat-edit').val(response.alamat);
 					// $('#edit').modal('handleUpdate');

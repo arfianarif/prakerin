@@ -18,6 +18,8 @@
                 <thead>
                     <tr>
                         <th width="5%" align="center">#</th>
+                        <th>NIK</th>
+                        <th>Nama</th>
                         <th>Email</th>
                         <th>Password</th>
                         <th width="12%">Action</th>
@@ -29,6 +31,8 @@
                     foreach ($content as $key) : ?>
                         <tr>
                             <td align="center"><?= $i++ ?></td>
+                            <td><?= $key->nik ?></td>
+                            <td><?= $key->nama ?></td>
                             <td><?= $key->email ?></td>
                             <td><?= $key->password ?></td>
                             <td align="center">
@@ -116,11 +120,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="nama_siswa">Nama</label>
-                    <input type="text" class="form-control" id="nama_siswa_edit" name="nama_siswa" placeholder="Text Here">
+                <div class="row">
+                    <div class="col md-6">
+                        <div class="form-group">
+                            <label for="nik">NIK</label>
+                            <input type="text" class="form-control" id="nik" name="nik" placeholder="Type Here">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nama">Nama</label>
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Type Here">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
+
+                <!-- <div class="form-group">
                     <label for="ttl">Tempat Tanggal Lahir </label> <br>
 
                     <input type="text" class="form-control" id="ttl-edit" name="ttl" placeholder="Text Here">
@@ -128,7 +143,7 @@
                 <div class="form-group">
                     <label for="alamat">Alamat </label>
                     <textarea name="alamat" class="form-control" id="alamat-edit" rows="2" placeholder="Text Here"></textarea>
-                </div>
+                </div> -->
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Dismiss</button>
@@ -198,9 +213,9 @@
                     $('#id-edit').val(response.id);
                     $('#email-edit').val(response.email);
                     $('#password-edit').val(response.password);
-                    $('#nama_siswa_edit').val(response.nama_siswa);
-                    $('#ttl-edit').val(response.ttl);
-                    $('#alamat-edit').val(response.alamat);
+                    $('#nama').val(response.nama);
+                    $('#nik').val(response.nik);
+
                     // $('#edit').modal('handleUpdate');
                     $('#edit').modal('show');
                 }

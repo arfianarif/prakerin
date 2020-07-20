@@ -1,9 +1,10 @@
 <div class="p-5">
 	<div class="text-center">
-		<h1 class="h4 text-gray-900 mb-4">Sistem Pendaftaran PKL</h1>
+		<h5 class="text-gray-900 mb-4"> Sistem PRA KER IN</h5>
+		<h3 class="text-gray-900 mb-4">Praktek Kerja Industri</h3>
 	</div>
 	<div class="text-center">
-		<p class="text-gray-900 mb-4">SMK Muhammadiyah Magelang</p>
+		<p class="text-gray-900 mb-4">SMK PURNAMA TEMPURAN</p>
 	</div>
 	<?= form_open('Auth/Login/authentication'); ?>
 	<div class="mt-5">
