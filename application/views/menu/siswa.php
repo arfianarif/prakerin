@@ -1,4 +1,4 @@
-<li class="nav-item active">
+<li class="nav-item">
     <a class="nav-link" href="<?= base_url() . 'Siswa/Dashboard' ?>">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span>
@@ -7,11 +7,11 @@
 
 <!-- Heading -->
 <div class="sidebar-heading">
-    Pendaftaran
+    PRAKERIN
 </div>
 
 <li class="nav-item">
-    <a class="nav-link" href="<?= base_url() . 'Siswa/Pendaftaran/daftar' ?>">
+    <a class="nav-link" href="<?= base_url() . 'Siswa/Prakerin/daftar' ?>">
         <i class="fas fa-business-time"></i>
         <span>Daftar</span>
     </a>
