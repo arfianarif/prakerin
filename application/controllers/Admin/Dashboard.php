@@ -16,6 +16,10 @@ class Dashboard extends CI_Controller
     {
         // $this->data['nav'] = $this->load->view();
         $this->data['nav_item'] = '1';
+        $this->data['siswa'] = $this->db->get('m_siswa')->num_rows();
+        $this->data['guru'] = $this->db->get('m_guru')->num_rows();
+        $this->data['tata_usaha'] = $this->db->get('m_tata_usaha')->num_rows();
+
         $this->template->load('Admin/Dashboard/dashboard', $this->data);
     }
 }

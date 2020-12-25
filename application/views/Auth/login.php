@@ -1,6 +1,6 @@
 <div class="p-5">
 	<div class="text-center">
-		<h5 class="text-gray-900 mb-4"> Sistem PRA KER IN</h5>
+		<h5 class="text-gray-900 mb-4">Sistem PRAKERIN</h5>
 		<h3 class="text-gray-900 mb-4">Praktek Kerja Industri</h3>
 	</div>
 	<div class="text-center">

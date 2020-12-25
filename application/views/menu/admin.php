@@ -5,14 +5,13 @@
     </a>
 </li>
 
-<hr class="sidebar-divider">
+<!-- <hr class="sidebar-divider"> -->
 
-<!-- Heading -->
-<div class="sidebar-heading">
+
+<!-- <div class="sidebar-heading">
     Setting
 </div>
 
-<!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-cog"></i>
@@ -26,4 +25,4 @@
             <a class="collapse-item" href="<?= base_url() . 'Admin/Master_Data/Tata_Usaha' ?>">Tata Usaha</a>
         </div>
     </div>
-</li>
+</li> -->

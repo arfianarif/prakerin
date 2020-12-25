@@ -37,7 +37,8 @@
 								<button class="edit-btn btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#edit" data-id="<?= $key->id ?>">
 									<i class="fas fa fa-edit"></i>
 								</button>
-								<a href="<?= base_url() . 'Admin/Master_Data/Siswa/Delete/' . $key->id ?>" class="btn btn-danger btn-circle btn-sm">
+
+								<a href="<?= base_url() . 'Admin/Master_Data/Siswa/Delete/' . $key->id ?>" class="swal-btn btn btn-danger btn-circle btn-sm">
 									<i class="fas fa-trash"></i>
 								</a>
 							</td>
@@ -194,6 +195,22 @@
 	$(document).ready(function() {
 		modalEdit();
 		modalDetail();
+		$('.swal-btn').click(function(e) {
+			console.log('haha');
+			e.preventDefault();
+			const href = $(this).attr('href');
+			Swal({
+				title: "Delete Data",
+				text: "Thisa data will be deleted",
+				type: 'warning',
+				showCancelNutton: true,
+				confirmButtonText: 'Yes',
+			}).then((result) => {
+				if (result.value) {
+					document.location.href = href;
+				}
+			})
+		})
 	});
 
 	function modalEdit() {

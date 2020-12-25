@@ -13,6 +13,11 @@ class Daftar extends CI_Controller
     public function index()
     {
         $this->data['a'] = 'a';
+        $this->template->load('Siswa/Prakerin/info',  $this->data);
+    }
+    public function form_daftar()
+    {
+        $this->data['a'] = 'a';
         $this->template->load('Siswa/Prakerin/daftar',  $this->data);
     }
 }

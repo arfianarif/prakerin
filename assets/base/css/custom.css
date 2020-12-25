@@ -1,0 +1,10 @@
+.dashboard-card {
+	-webkit-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+.dashboard-card:hover {
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+	text-decoration: none;
+}
