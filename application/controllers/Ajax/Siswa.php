@@ -9,11 +9,6 @@ class Siswa extends CI_Controller
         $this->load->library('session');
     }
 
-    public function index()
-    {
-        // $this->template->load_auth('Auth/login');
-    }
-
     public function getData()
     {
         if ($this->input->get('draw')) {
