@@ -20,15 +20,17 @@
 	<link href="<?= base_url() . 'assets/base/' ?>css/sb-admin-2.min.css" rel="stylesheet">
 	<link href="<?= base_url() . 'assets/base/' ?>css/custom.css" rel="stylesheet">
 	<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 
+	<script src="<?= base_url() . 'assets/base/' ?>vendor/jquery/jquery.min.js"></script>
 	<!-- <link href="<?= base_url() . 'assets/base/' ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script> -->
 	<!-- <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg" type="image/x-icon"> -->
 	<?php if (isset($custom_css)) : ?>
 		<?= $custom_css ?>
 	<?php endif; ?>
 	<link rel="stylesheet" type="text/css" href="<?= base_url() . 'assets/base/' ?>datatable/datatables.min.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="<?= base_url() . 'assets/base/' ?>new/css/bootstrap.min.css" /> -->
 
 
 </head>
@@ -211,9 +213,11 @@
 		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script> -->
 	<!-- Bootstrap core JavaScript-->
 	<script src="<?= base_url() . 'assets/base/' ?>vendor/jquery/jquery.min.js"></script>
+	<!-- <script src="<?= base_url() . 'assets/base/' ?>jquery.min.js"></script> -->
+	<!-- <script src="<?= base_url() . 'assets/base/' ?>new/js/bootstrap.min.js"></script> -->
 	<script src="<?= base_url() . 'assets/base/' ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Core plugin JavaScript-->
@@ -222,6 +226,7 @@
 	<!-- Custom scripts for all pages-->
 	<script src="<?= base_url() . 'assets/base/' ?>js/sb-admin-2.min.js"></script>
 	<script src="<?= base_url() . 'assets/base/' ?>js/jquery.steps.js"></script>
+
 	<!-- <script src="<?= base_url() . 'assets/base/' ?>js/sb-admin-2.min.js"></script> -->
 
 	<!-- Page level plugins -->

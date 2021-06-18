@@ -81,13 +81,15 @@ class Siswa extends CI_Controller
             $id = $row['id_siswa'];
             $linkDelete = base_url('Admin/Master_Data/Siswa/Delete/') . $id;
             $htmlAction = '
-                <button class="edit-btn btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#edit" data-id="' . $id . '">
-                <i class="fas fa fa-edit"></i>
-                </button>
+                <div class="">
+                    <button class="js-edit-btn btn btn-warning btn-circle btn-sm" data-id="' . $id . '">
+                    <i class="fas fa fa-edit"></i>
+                    </button>
 
-                <a href="' . $linkDelete . '" class="swal-btn btn btn-danger btn-circle btn-sm">
-                    <i class="fas fa-trash"></i>
-                </a>
+                    <button data-id="' . $id . '" class="js-delete-btn btn btn-danger btn-circle btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             ';
             $results[] = [
                 $no = $i++,
