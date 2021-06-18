@@ -20,10 +20,21 @@ class Siswa extends CI_Controller
 	{
 		$data = array(
 			'email' => $this->input->post('email'),
-			'password' => $this->input->post('password'),
-			'id_role' => 4
+			'password' => $this->input->post('password')
 		);
+		
 		$this->db->insert('m_siswa', $data);
+		
+		$getData = $this->db->get_where('m_siswa', $data)->row_array();
+
+		$user = array(
+			'id_user' => $getData['id_siswa'],
+			'email' => $this->input->post('email'),
+			'password' => $this->input->post('password'),
+			'role' => 'siswa'
+		);
+		
+		$this->db->insert('m_users', $user);
 		redirect('Admin/Master_Data/Siswa');
 	}
 	public function delete($id)
