@@ -35,23 +35,21 @@ class Siswa extends CI_Controller
         }
 
         if ($this->input->get('search[value]')) {
-            $search = $this->input->get('search[value]');
-            $searchValue = $this->db->escape($search);
+            $searchValue = $this->input->get('search[value]');
+            // $searchValue = $this->db->escape($searchValue);
         } else {
             $searchValue = '';
         }
 
         $mapArray = [
-            0 => 'idx',
-            1 => 'picture',
-            2 => 'name',
-            3 => 'username',
-            4 => 'category'
-
+            0 => 'id_siswa',
+            1 => 'nis',
+            2 => 'email',
+            3 => 'password'
         ];
 
         $coloumnIndex = $this->input->get('order[0][column]');
-        $coloumnOrder = isset($mapArray[$coloumnIndex]) ? $mapArray[$coloumnIndex] : 'name';
+        $coloumnOrder = isset($mapArray[$coloumnIndex]) ? $mapArray[$coloumnIndex] : 'id_siswa';
 
 
         $getOrderBy = $this->input->get('order[0][dir]');
@@ -61,12 +59,29 @@ class Siswa extends CI_Controller
         } else {
             $orderBy = 'DESC';
         }
+        $sql = "SELECT * FROM m_siswa WHERE publish = 1";
+        $sqlCountFiltered = "SELECT count(id_siswa) as jumlah FROM m_siswa WHERE  publish = 1 ";
+        $sqlCountTotal = "SELECT count(id_siswa) as jumlah FROM m_siswa WHERE publish = 1";
 
-        $datas = $this->db->get('m_siswa');
+        if (!empty($searchValue)) {
+            $sql .= " AND ( nis LIKE '%$searchValue%' OR email LIKE '%$searchValue%' OR password LIKE '%$searchValue%' )";
+
+            $sqlCountFiltered .= " AND ( nis LIKE '%$searchValue%' OR email LIKE '%$searchValue%' OR password LIKE '%$searchValue%' )";
+        }
+
+        $sql .= " ORDER BY $coloumnOrder $orderBy LIMIT $start,$limit";
+
+        $queryCount = $this->db->query($sqlCountFiltered)->row();
+        $totalDataFiltered = $queryCount->jumlah;
+
+        $queryTotalData = $this->db->query($sqlCountTotal)->row();
+        $totalData = $queryTotalData->jumlah;
+
+        $query = $this->db->query($sql);
 
         $results = [];
         $i = 1;
-        foreach ($datas->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
 
             $id = $row['id_siswa'];
             $linkDelete = base_url('Admin/Master_Data/Siswa/Delete/') . $id;
@@ -90,8 +105,8 @@ class Siswa extends CI_Controller
 
         $json = [];
         $json['draw'] = $page;
-        $json['recordsTotal'] = $datas->num_rows();
-        $json['recordsFiltered'] = $datas->num_rows();
+        $json['recordsTotal'] = $totalDataFiltered;
+        $json['recordsFiltered'] = $totalData;
         $json['data'] = $results;
 
         header("Content-type:application/json");
