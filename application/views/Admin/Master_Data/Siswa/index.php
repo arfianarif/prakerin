@@ -80,27 +80,35 @@
 			"processing": true,
 			"serverSide": true,
 			"ajax": url,
-			// "order": [
-			// 	[2, "desc"]
-			// ],
 			"pageLength": 100,
 			"dom": 'Bfrtip',
 			"buttons": [{
-				text: 'PDF',
-				className: 'btn btn-danger mr-3',
-				extend: 'pdfHtml5',
-				message: '',
-				download: 'open',
-				footer: true,
-				orientation: 'landscape',
-				exportOptions: {
-					columns: [1, 2, 3]
+					text: 'EXCEL',
+					className: 'btn btn-success',
+					extend: 'excelHtml5',
+					message: '',
+					orientation: 'landscape',
+					exportOptions: {
+						columns: [1, 2, 3]
+					}
 				},
-				customize: function(doc) {
-					doc.content[1].table.widths =
-						Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+				{
+					text: 'PDF',
+					className: 'btn btn-danger',
+					extend: 'pdfHtml5',
+					message: '',
+					download: 'open',
+					footer: true,
+					orientation: 'landscape',
+					exportOptions: {
+						columns: [1, 2, 3]
+					},
+					customize: function(doc) {
+						doc.content[1].table.widths =
+							Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+					}
 				}
-			}]
+			]
 
 		});
 	});
