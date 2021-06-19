@@ -13,12 +13,15 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div class="table-responsive">
+		<div class="table-responsive table-sm">
 			<table class="table table-bordered" id="js-datatable-siswa" width="100%" cellspacing="0">
 				<thead>
 					<tr>
 						<th width="5%" align="center">#</th>
 						<th>NIS</th>
+						<th>Nama</th>
+						<th>Alamat</th>
+						<th>TTL</th>
 						<th>Email</th>
 						<th>Password</th>
 						<th width="12%">Action</th>
@@ -33,9 +36,8 @@
 	</div>
 </div>
 
-
 <div class="modal fade" id="globalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-scrollable" role="document">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="modalTitle">Lorem Ipsum</h5>
@@ -65,114 +67,6 @@
 			gModalBtn = $('#js-btn-global-modal'),
 			url = "<?= base_url() . 'Ajax/Siswa/getData' ?>";
 
-		$(document).on('click', '#js-add-btn', (e) => {
-			console.log(
-				e.target
-			);
-			modalHandler('add');
-		})
-
-		$(document).on('click', '.js-edit-btn', (e) => {
-			let id = $(e.target).data('id');
-			modalHandler('edit', id);
-		})
-
-		$(document).on('click', '.js-delete-btn', (e) => {
-			let id = $(e.target).data('id');
-			alert(id);
-		})
-
-		let modalHandler = async (params, id = null) => {
-			let
-				btnProcess = '',
-				mTitle = '',
-				mBody = '';
-			if (params == 'add') {
-				mTitle = "Tambah Data Siswa";
-				btnProcess = "Tambah";
-				mBody = `
-				<div class="form-group">
-					<label for="exampleInputEmail1">Email address</label>
-					<input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
-					
-				</div>
-				<div class="form-group">
-					<label for="exampleInputPassword1">Password</label>
-					<input type="password" class="form-control" name="password" placeholder="Password">
-				</div>
-				`;
-			} else {
-				btnProcess = "Edit";
-				mTitle = "Edit Data Siswa";
-				let dataSiswa = await getDataSiswa();
-
-				await getDataSiswa(id);
-			}
-			await gModalTitle.html(mTitle);
-			await gModalBody.html(mBody);
-			await gModalBtn.html(btnProcess);
-			await gModalBtn.attr('data-params', params);
-			globalModal.modal('show');
-		}
-
-		gModalBtn.on('click', (e) => {
-			let params = $(e.target).data('params');
-			if (params == 'add') {
-				addDataSiswa();
-			} else {
-				editDataSiswa();
-			}
-		})
-
-
-		let addDataSiswa = async () => {
-			let data = $('#js-form').serialize();
-			console.log({
-				data
-			});
-			$.ajax({
-				type: "POST",
-				url: "<?= base_url() ?>" + 'Ajax/Siswa/addData',
-				data: data,
-				dataType: "json",
-				success: function(response) {
-
-				}
-			});
-		}
-
-		let editDataSiswa = async () => {
-			let data = $('#js-form').serialize();
-			console.log({
-				data
-			});
-			$.ajax({
-				type: "POST",
-				url: "<?= base_url() ?>" + 'Ajax/Siswa/editData',
-				data: data,
-				dataType: "json",
-				success: function(response) {
-
-				}
-			});
-		}
-
-		let getDataSiswa = async (id) => {
-			$.ajax({
-				type: "GET",
-				url: url + 'ById',
-				data: {
-					id: id
-				},
-				dataType: "json",
-				success: function(response) {
-					console.log({
-						response
-					});
-				}
-			});
-		}
-
 		let table = $('#js-datatable-siswa').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -186,7 +80,7 @@
 					message: '',
 					orientation: 'landscape',
 					exportOptions: {
-						columns: [1, 2, 3]
+						columns: [1, 2, 3, 4, 5, 6]
 					}
 				},
 				{
@@ -198,7 +92,7 @@
 					footer: true,
 					orientation: 'landscape',
 					exportOptions: {
-						columns: [1, 2, 3]
+						columns: [1, 2, 3, 4, 5, 6]
 					},
 					customize: function(doc) {
 						doc.content[1].table.widths =
@@ -208,5 +102,241 @@
 			]
 
 		});
+
+		$(document).on('click', '#js-add-btn', (e) => {
+			modalHandlerAdd();
+		})
+
+		$(document).on('click', '.js-edit-btn', (e) => {
+			let data = {
+				'id': $(e.target).data('id')
+			};
+			$.get(url + 'ById', data,
+				function(res, textStatus, jqXHR) {
+					if (res.status) {
+						modalHandlerEdit(res.data);
+					} else {
+
+					}
+				},
+				"json"
+			);
+		})
+
+		$(document).on('click', '.js-delete-btn', (e) => {
+			let data_id = $(e.target).data('id');
+
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						type: "POST",
+						url: "<?= base_url() ?>" + 'Ajax/Siswa/deleteData',
+						data: {
+							id_siswa: data_id
+						},
+						dataType: "json",
+						success: function(response) {
+							console.log({
+								response
+							});
+							if (response.status) {
+								Swal.fire(
+									'Deleted!',
+									'Your file has been deleted.',
+									'success'
+								).then(() => {
+									location.reload();
+								});
+							}
+						}
+					});
+
+				}
+			})
+		})
+
+		modalHandlerAdd = async () => {
+			let
+				btnProcess = '',
+				mTitle = '',
+				mBody = '';
+
+			mTitle = "Tambah Data Siswa";
+			btnProcess = "Tambah Data";
+			mBody += `
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="">NIS</label>
+							<input type="text" class="form-control" name="nis" placeholder="">
+						</div>
+						<div class="form-group">
+							<label class="">Nama</label>
+							<input type="text" class="form-control" name="nama" placeholder="">
+						</div>
+						<div class="form-group">
+							<label class="">Alamat</label>
+							<input type="text" class="form-control" name="alamat" placeholder="">
+						</div>
+						<div class="form-group">
+							<label class="">TTL</label>
+							<input type="text" class="form-control" name="ttl" placeholder="">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="">Email</label>
+							<input type="text" class="form-control" name="email" placeholder="">
+						</div>
+						<div class="form-group">
+							<label class="">Password</label>
+							<input type="text" class="form-control" name="password" placeholder="">
+						</div>
+					</div>
+				</div>
+			`;
+
+			await gModalTitle.html(mTitle);
+			await gModalBody.html(mBody);
+			await gModalBtn.html(btnProcess);
+			await gModalBtn.attr('data-params', 'add');
+			globalModal.modal('show');
+		}
+
+		modalHandlerEdit = async (data) => {
+			let
+				selected = '',
+				btnProcess = '',
+				mTitle = '',
+				mBody = '';
+
+			btnProcess = "Save Data";
+			mTitle = "Edit Data Siswa";
+
+			if (data.publish) {
+				selected = 'selected'
+			}
+			mBody += `
+				<div class="row">
+					<input hidden type="text" class="form-control" name="id_siswa" value="${data.id_siswa}">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="">NIS</label>
+							<input type="text" class="form-control" name="nis" placeholder="${data.nis}">
+						</div>
+						<div class="form-group">
+							<label class="">Nama</label>
+							<input type="text" class="form-control" name="nama" placeholder="${data.nama}">
+						</div>
+						<div class="form-group">
+							<label class="">Alamat</label>
+							<input type="text" class="form-control" name="alamat" placeholder="${data.alamat}">
+						</div>
+						<div class="form-group">
+							<label class="">TTL</label>
+							<input type="text" class="form-control" name="ttl" placeholder="${data.ttl}">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="">Email</label>
+							<input type="text" class="form-control" name="email" placeholder="${data.email}">
+						</div>
+						<div class="form-group">
+							<label class="">Password</label>
+							<input type="text" class="form-control" name="password" placeholder="${data.password}">
+						</div>
+						<div class="form-group">
+							<label class="">Publish</label>
+							<select class="form-control" id="" name="publish">
+								<option value="0" ${selected}>Non Active</option>
+								<option value="1" ${selected}>Active</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			`;
+
+			await gModalTitle.html(mTitle);
+			await gModalBody.html(mBody);
+			await gModalBtn.html(btnProcess);
+			await gModalBtn.attr('data-params', 'edit');
+			globalModal.modal('show');
+		}
+
+		gModalBtn.on('click', (e) => {
+			let params = $(e.target).data('params');
+			if (params == 'add') {
+				addDataSiswa();
+			} else {
+				editDataSiswa();
+			}
+		})
+
+		addDataSiswa = async () => {
+			let data = $('#js-form').serialize();
+			console.log({
+				data
+			});
+			$.ajax({
+				type: "POST",
+				url: "<?= base_url() ?>" + 'Ajax/Siswa/addData',
+				data: data,
+				dataType: "json",
+				success: function(response) {
+					if (response.status) {
+						Swal.fire({
+							title: 'Berhasil',
+							text: "Data berhasil ditambahkan",
+							icon: 'success',
+						}).then(() => {
+							location.reload();
+						})
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: 'Something went wrong!'
+						})
+					}
+				}
+			});
+		}
+
+		editDataSiswa = async () => {
+			let data = $('#js-form').serialize();
+
+			$.ajax({
+				type: "POST",
+				url: "<?= base_url() ?>" + 'Ajax/Siswa/editData',
+				data: data,
+				dataType: "json",
+				success: function(response) {
+					if (response.status) {
+						Swal.fire({
+							title: 'Berhasil',
+							text: "Data berhasil diupdate",
+							icon: 'success',
+						}).then(() => {
+							location.reload();
+						})
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: 'Something went wrong!'
+						})
+					}
+				}
+			});
+		}
 	});
 </script>
