@@ -26,7 +26,6 @@ class Login extends CI_Controller
 		$post = $this->input->post();
 		$user = $this->MLogin->authentication($post);
 
-
 		if (isset($user)) {
 			$sess_data = array(
 				'id_user' => $user['id_user'],

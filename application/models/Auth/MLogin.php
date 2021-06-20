@@ -6,10 +6,16 @@ class MLogin extends CI_Model
 
 	public function authentication()
 	{
-		$email = $this->input->post('email');
+		$userinput = $this->input->post('username');
 		$password = $this->input->post('pass');
-		$array = array('email' => $email, 'password' => $password);
-
+		if (strpos($userinput, "@")) {
+			$email = $userinput;
+			$array = array('email' => $email, 'password' => $password);
+		}else{
+			$noidentitas = $userinput;
+			$array = array('no_identitas' => $noidentitas, 'password' => $password);
+		}
+	
 		$login = $this->db->get_where('m_users', $array)->row_array();
 		// print_r($login);
 		// exit;
