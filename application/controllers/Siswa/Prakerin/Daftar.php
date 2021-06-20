@@ -8,20 +8,24 @@ class Daftar extends CI_Controller
         parent::__construct();
 
         $this->load->library('session');
-        // $this->load->model('Auth/MLogin');
+        $this->load->model('M_Siswa');
     }
     public function index()
     {
-        echo '<pre>';
-        print_r($this->session);
-        echo '</pre>';
-        exit;
+        $id = $this->session->userdata('id_user');
+
         $this->data['a'] = 'a';
+        $this->data['prakerin'] = $this->M_Siswa->getPendaftaran($id);
         $this->template->load('Siswa/Prakerin/info',  $this->data);
     }
     public function form_daftar()
     {
         $this->data['a'] = 'a';
         $this->template->load('Siswa/Prakerin/daftar',  $this->data);
+    }
+
+    public function addPendaftaran()
+    {
+        echo json_encode($this->input->post());
     }
 }
