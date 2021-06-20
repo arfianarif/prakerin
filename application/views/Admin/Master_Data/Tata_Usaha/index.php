@@ -65,7 +65,7 @@
             gModalTitle = globalModal.find('#modalTitle'),
             gModalBody = globalModal.find('.modal-body'),
             gModalBtn = $('#js-btn-global-modal'),
-            url = "<?= base_url() . 'Ajax/Tata_Usaha/getData' ?>";
+            url = "<?= base_url() . 'Admin/Ajax/Tata_Usaha/getData' ?>";
 
         let table = $('#js-datatable-tu').DataTable({
             "processing": true,
@@ -138,7 +138,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: "<?= base_url() ?>" + 'Ajax/Tata_Usaha/deleteData',
+                        url: "<?= base_url() ?>" + 'Admin/Ajax/Tata_Usaha/deleteData',
                         data: {
                             id_Tata_Usaha: data_id
                         },
@@ -269,7 +269,7 @@
             let data = $('#js-form').serialize();
             $.ajax({
                 type: "POST",
-                url: "<?= base_url() ?>" + 'Ajax/Tata_Usaha/addData',
+                url: "<?= base_url() ?>" + 'Admin/Ajax/Tata_Usaha/addData',
                 data: data,
                 dataType: "json",
                 success: function(response) {
@@ -297,7 +297,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "<?= base_url() ?>" + 'Ajax/Tata_Usaha/editData',
+                url: "<?= base_url() ?>" + 'Admin/Ajax/Tata_Usaha/editData',
                 data: data,
                 dataType: "json",
                 success: function(response) {

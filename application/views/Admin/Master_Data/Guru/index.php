@@ -65,7 +65,7 @@
             gModalTitle = globalModal.find('#modalTitle'),
             gModalBody = globalModal.find('.modal-body'),
             gModalBtn = $('#js-btn-global-modal'),
-            url = "<?= base_url() . 'Ajax/Guru/getData' ?>";
+            url = "<?= base_url() . 'Admin/Ajax/Guru/getData' ?>";
 
         let table = $('#js-datatable-guru').DataTable({
             "processing": true,
@@ -138,7 +138,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: "<?= base_url() ?>" + 'Ajax/Guru/deleteData',
+                        url: "<?= base_url() ?>" + 'Admin/Ajax/Guru/deleteData',
                         data: {
                             id_guru: data_id
                         },
@@ -269,7 +269,7 @@
             let data = $('#js-form').serialize();
             $.ajax({
                 type: "POST",
-                url: "<?= base_url() ?>" + 'Ajax/Guru/addData',
+                url: "<?= base_url() ?>" + 'Admin/Ajax/Guru/addData',
                 data: data,
                 dataType: "json",
                 success: function(response) {
@@ -297,7 +297,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "<?= base_url() ?>" + 'Ajax/Guru/editData',
+                url: "<?= base_url() ?>" + 'Admin/Ajax/Guru/editData',
                 data: data,
                 dataType: "json",
                 success: function(response) {

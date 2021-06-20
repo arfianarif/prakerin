@@ -65,7 +65,7 @@
 			gModalTitle = globalModal.find('#modalTitle'),
 			gModalBody = globalModal.find('.modal-body'),
 			gModalBtn = $('#js-btn-global-modal'),
-			url = "<?= base_url() . 'Ajax/Siswa/getData' ?>";
+			url = "<?= base_url() . 'Admin/Ajax/Siswa/getData' ?>";
 
 		let table = $('#js-datatable-siswa').DataTable({
 			"processing": true,
@@ -138,7 +138,7 @@
 				if (result.isConfirmed) {
 					$.ajax({
 						type: "POST",
-						url: "<?= base_url() ?>" + 'Ajax/Siswa/deleteData',
+						url: "<?= base_url() ?>" + 'Admin/Ajax/Siswa/deleteData',
 						data: {
 							id_siswa: data_id
 						},
@@ -285,7 +285,7 @@
 			let data = $('#js-form').serialize();
 			$.ajax({
 				type: "POST",
-				url: "<?= base_url() ?>" + 'Ajax/Siswa/addData',
+				url: "<?= base_url() ?>" + 'Admin/Ajax/Siswa/addData',
 				data: data,
 				dataType: "json",
 				success: function(response) {
@@ -313,7 +313,7 @@
 
 			$.ajax({
 				type: "POST",
-				url: "<?= base_url() ?>" + 'Ajax/Siswa/editData',
+				url: "<?= base_url() ?>" + 'Admin/Ajax/Siswa/editData',
 				data: data,
 				dataType: "json",
 				success: function(response) {
