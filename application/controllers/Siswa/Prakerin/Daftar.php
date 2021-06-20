@@ -12,6 +12,10 @@ class Daftar extends CI_Controller
     }
     public function index()
     {
+        echo '<pre>';
+        print_r($this->session);
+        echo '</pre>';
+        exit;
         $this->data['a'] = 'a';
         $this->template->load('Siswa/Prakerin/info',  $this->data);
     }
