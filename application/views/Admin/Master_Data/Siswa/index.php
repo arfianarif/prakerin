@@ -283,9 +283,6 @@
 
 		addDataSiswa = async () => {
 			let data = $('#js-form').serialize();
-			console.log({
-				data
-			});
 			$.ajax({
 				type: "POST",
 				url: "<?= base_url() ?>" + 'Ajax/Siswa/addData',
