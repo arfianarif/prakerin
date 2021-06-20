@@ -42,66 +42,58 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="identitas-pengaju">
-                                        <input hidden type="text" class="form-control" name="id_ketua">
+                                        <input hidden type="text" class="js-input form-control" name="id_siswa" value="<?= $this->session->userdata('id_user'); ?>">
                                         <p><b>Bagian identitas pengajuan pendaftar :</b></p>
                                         <div class="form-group">
                                             <label class="">Nama</label>
-                                            <input type="text" class="form-control" name="nama_ketua" placeholder="Isikan Nama Anda">
+                                            <input type="text" class="form-control js-input" name="nama" placeholder="Isikan Nama">
                                         </div>
                                         <div class="form-group">
                                             <label class="">NIS</label>
-                                            <input type="text" class="form-control" name="nis_ketua" placeholder="Isikan NIS Anda">
+                                            <input type="text" class="form-control js-input" name="nis" placeholder="Isikan NIS">
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <!-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="">Jurusan</label>
-                                                    <select class="form-control" id="" name="jurusan_ketua">
+                                                    <select class="form-control js-input" id="" name="jurusan">
                                                         <option value="0">Mesin</option>
                                                         <option value="1">TKJ</option>
                                                         <option value="2">Perkantoran</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="">Tipe :</label>
                                                     <div class="d-flex flex-row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input radio_individu" type="radio" name="radio_individu" id="radio_individu" value="individu">
-                                                                <label class="form-check-label" for="radio_individu">
-                                                                    Individu
-                                                                </label>
-                                                            </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="js-input form-check-input" id="kelompok" name="kelompok">
+                                                            <label class="form-check-label" for="kelompok">Kelompok</label>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input radio_kelompok" type="radio" name="radio_kelompok" id="radio_kelompok" value="kelompok">
-                                                                <label class="form-check-label" for="radio_kelompok">
-                                                                    Kelompok
-                                                                </label>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr>
-                                        <div class="form-kelompok">
 
-                                        </div>
+
+                                    </div>
+                                    <hr>
+                                    <div class="form-kelompok">
+
                                     </div>
                                     <hr>
                                     <div class="identitas-tempat-praktik">
                                         <p><b>Bagian identitas tempat praktik yang diajukan :</b></p>
                                         <div class="form-group">
                                             <label class="">Nama Instansi / Tempat Magang</label>
-                                            <input type="text" class="form-control" name="nama-instansi" placeholder="Isikan Nama Instansi">
+                                            <input type="text" class="form-control js-input" name="nama_instansi" placeholder="Isikan Nama Instansi">
                                         </div>
                                         <div class="form-group">
                                             <label class="">Alamat</label>
-                                            <textarea class="form-control" id="" name="alamat-instansi" rows="3"></textarea>
+                                            <textarea class="form-control js-input" id="" name="alamat_instansi" rows="3"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -123,73 +115,61 @@
             const
                 formWrapper = $('#form-daftar-value'),
                 wIdentitasPengaju = $('.identitas-pengaju'),
+                wIdentitasTempatPraktik = $('.identitas-tempat-praktik'),
                 wKelompok = $('.form-kelompok'),
                 formDaftarWrapper = $('.form-daftar'),
                 btndaftar = $('.btn-daftar');
 
-            $('.radio_kelompok').click(function() {
-                $('.radio_individu').prop('checked', false);
-                let content = `
+
+            $('#kelompok').change(function() {
+                // this will contain a reference to the checkbox   
+                if (this.checked) {
+                    let content = `
                     <div class="d-flex flex-row justify-content-between">
                         <p>Daftar Kelompok :</p>
                     </div>
                     <div class="kelompok-items" data-id="1">
                         <div class="form-group">
                             <label class="">Nama Anggota 1</label>
-                            <input type="text" class="form-control" name="nama_anggota_1" placeholder="Isikan Nama Anda">
+                            <input type="text" class="js-input form-control" name="nama" placeholder="Isikan Nama">
                         </div>
                         <div class="form-group">
-                            <label class="">NIS Anggota 2</label>
-                            <input type="text" class="form-control" name="nis_anggota_1" placeholder="Isikan NIS Anda">
+                            <label class="">NIS Anggota 1</label>
+                            <input type="text" class="js-input form-control" name="nis" placeholder="Isikan NIS">
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="">Jurusan</label>
-                                    <select class="form-control" id="" name="jurusan_anggota_1">
-                                        <option value="0">Mesin</option>
-                                        <option value="1">TKJ</option>
-                                        <option value="2">Perkantoran</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
+                    <hr>
                     <div class="kelompok-items" data-id="2">
                         <div class="form-group">
                             <label class="">Nama Anggota 2</label>
-                            <input type="text" class="form-control" name="nama_anggota_2" placeholder="Isikan Nama Anda">
+                            <input type="text" class="js-input form-control" name="nama" placeholder="Isikan Nama">
                         </div>
                         <div class="form-group">
                             <label class="">NIS Anggota 2</label>
-                            <input type="text" class="form-control" name="nis_anggota_2" placeholder="Isikan NIS Anda">
+                            <input type="text" class="js-input form-control" name="nis" placeholder="Isikan NIS">
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="">Jurusan</label>
-                                    <select class="form-control" id="" name="jurusan">
-                                        <option value="0">Mesin</option>
-                                        <option value="1">TKJ</option>
-                                        <option value="2">Perkantoran</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 `;
-
-                wKelompok.html(content);
-
-            })
-
-            $('.radio_individu').click(function() {
-                $('.radio_kelompok').prop('checked', false);
-                wKelompok.html('');
-            })
+                    wKelompok.html(content);
+                } else {
+                    wKelompok.html('');
+                }
+            });
 
             btndaftar.on('click', () => {
-                dataForm = formWrapper.serialize();
+                dataForm = {};
+                dataForm.pengaju = wIdentitasPengaju.find('.js-input').serializeArray();
+                dataForm.tempat_praktik = wIdentitasTempatPraktik.find('.js-input').serializeArray();
+                if ($('input.js-input').is(':checked')) {
+                    kelompok = [];
+                    $.each(wKelompok.find('.kelompok-items'), function(i, v) {
+                        kelompok[i] = $(v).find('.js-input').serializeArray();
+                    });
+                    dataForm.kelompok = kelompok;
+                }
+
                 $.ajax({
                     type: "POST",
                     url: "<?= base_url(); ?>Siswa/Prakerin/Daftar/addPendaftaran",
