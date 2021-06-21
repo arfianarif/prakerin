@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2021 at 02:04 PM
+-- Generation Time: Jun 21, 2021 at 03:28 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.20
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `prakerin`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kelompok`
+--
+
+CREATE TABLE `kelompok` (
+  `id_praktik` int(11) NOT NULL,
+  `id_siswa` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -142,28 +153,14 @@ INSERT INTO `m_users` (`id`, `id_user`, `no_identitas`, `email`, `password`, `ro
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pendaftaran`
---
-
-CREATE TABLE `pendaftaran` (
-  `id_pendaftaran` int(11) NOT NULL,
-  `id_siswa` int(9) NOT NULL,
-  `publish` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `praktik`
 --
 
 CREATE TABLE `praktik` (
   `id_praktik` int(11) NOT NULL,
-  `id_siswa` int(9) NOT NULL,
-  `is_group` int(1) NOT NULL,
-  `members` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`members`)),
   `nama_instansi` text NOT NULL,
   `alamat_instansi` text NOT NULL,
+  `status` enum('pending','disetujui','selesai','') NOT NULL,
   `publish` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -200,12 +197,6 @@ ALTER TABLE `m_tata_usaha`
 --
 ALTER TABLE `m_users`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `pendaftaran`
---
-ALTER TABLE `pendaftaran`
-  ADD PRIMARY KEY (`id_pendaftaran`);
 
 --
 -- Indexes for table `praktik`
@@ -246,12 +237,6 @@ ALTER TABLE `m_tata_usaha`
 --
 ALTER TABLE `m_users`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT for table `pendaftaran`
---
-ALTER TABLE `pendaftaran`
-  MODIFY `id_pendaftaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `praktik`
