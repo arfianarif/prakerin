@@ -42,15 +42,15 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="identitas-pengaju">
-                                        <input hidden type="text" class="js-input form-control" name="id_siswa" value="<?= $this->session->userdata('id_user'); ?>">
+                                        <input hidden type="text" class="form-control" name="id_siswa" value="<?= $this->session->userdata('id_user'); ?>">
                                         <p><b>Bagian identitas pengajuan pendaftar :</b></p>
                                         <div class="form-group">
                                             <label class="">Nama</label>
-                                            <input type="text" class="form-control js-input" name="nama" placeholder="Isikan Nama">
+                                            <input type="text" class="form-control js-input" name="nama[]" placeholder="Isikan Nama">
                                         </div>
                                         <div class="form-group">
                                             <label class="">NIS</label>
-                                            <input type="text" class="form-control js-input" name="nis" placeholder="Isikan NIS">
+                                            <input type="text" class="form-control js-input" name="nis[]" placeholder="Isikan NIS" required>
                                         </div>
                                         <div class="row">
                                             <!-- <div class="col-md-6">
@@ -69,7 +69,7 @@
                                                     <div class="d-flex flex-row">
 
                                                         <div class="form-check">
-                                                            <input type="checkbox" class="js-input form-check-input" id="kelompok" name="kelompok">
+                                                            <input type="checkbox" class="form-check-input" id="kelompok" name="kelompok">
                                                             <label class="form-check-label" for="kelompok">Kelompok</label>
                                                         </div>
 
@@ -131,11 +131,11 @@
                     <div class="kelompok-items" data-id="1">
                         <div class="form-group">
                             <label class="">Nama Anggota 1</label>
-                            <input type="text" class="js-input form-control" name="nama" placeholder="Isikan Nama">
+                            <input type="text" class="js-input form-control" name="nama[]" placeholder="Isikan Nama">
                         </div>
                         <div class="form-group">
                             <label class="">NIS Anggota 1</label>
-                            <input type="text" class="js-input form-control" name="nis" placeholder="Isikan NIS">
+                            <input type="text" class="js-input form-control" name="nis[]" placeholder="Isikan NIS">
                         </div>
                         
                     </div>
@@ -143,11 +143,11 @@
                     <div class="kelompok-items" data-id="2">
                         <div class="form-group">
                             <label class="">Nama Anggota 2</label>
-                            <input type="text" class="js-input form-control" name="nama" placeholder="Isikan Nama">
+                            <input type="text" class="js-input form-control" name="nama[]" placeholder="Isikan Nama">
                         </div>
                         <div class="form-group">
                             <label class="">NIS Anggota 2</label>
-                            <input type="text" class="js-input form-control" name="nis" placeholder="Isikan NIS">
+                            <input type="text" class="js-input form-control" name="nis[]" placeholder="Isikan NIS">
                         </div>
                         
                     </div>
@@ -158,32 +158,131 @@
                 }
             });
 
-            btndaftar.on('click', () => {
-                dataForm = {};
-                dataForm.pengaju = wIdentitasPengaju.find('.js-input').serializeArray();
-                dataForm.tempat_praktik = wIdentitasTempatPraktik.find('.js-input').serializeArray();
-                if ($('input.js-input').is(':checked')) {
-                    kelompok = [];
-                    $.each(wKelompok.find('.kelompok-items'), function(i, v) {
-                        kelompok[i] = $(v).find('.js-input').serializeArray();
-                    });
-                    dataForm.kelompok = kelompok;
-                }
+            function swalHandler(data) {
+                Swal.fire(
+                    data.title,
+                    data.message,
+                    data.type
+                )
+            }
 
+            function validation() {
+                let x = formWrapper.find('.js-input').each((y, z) => {
+                    z = $(z).val();
+                    if (z == "") {
+                        return false;
+                    }
+                });
+                return x;
+            }
+            btndaftar.on('click', async () => {
+                // let x = validation();
+                // if (x === false) {
+                //     let data = {};
+                //     data.title = 'Peringatan !';
+                //     data.message = 'Harap isi semua data';
+                //     data.type = 'warning';
+                //     swalHandler(data);
+                // } else {
+
+                // }
+
+                // if (validation()) {
+
+                // } else {
+                //     let data = {};
+                //     data.title = 'Peringatan !';
+                //     data.message = 'Harap isi semua data';
+                //     data.type = 'warning';
+                //     swalHandler(data);
+                // }
+                let is_ok = 0;
+                let dataForm = {};
+                dataForm.nama = $(".js-input[name='nama[]']")
+                    .map(function() {
+                        return $(this).val();
+                    }).get();
+
+                // dataForm.nama_instansi = $(".js-input[name='nama_instansi']")
+                //     .map(function() {
+                //         let data = {};
+                //         if ($(this).val() == "") {
+                //             data.title = 'Peringatan !';
+                //             data.message = 'Harap isi form nama instansi';
+                //             data.type = 'warning';
+                //             is_ok = 0;
+                //             swalHandler(data);
+                //         } else {
+                //             is_ok = 1;
+                //             return $(this).val();
+                //         }
+                //     }).get();
+                dataForm.nama_instansi = $(".js-input[name='nama_instansi']")
+                    .map(function() {
+                        return $(this).val();
+                    }).get();
+
+
+                dataForm.alamat_instansi = $(".js-input[name='alamat_instansi']")
+                    .map(function() {
+                        return $(this).val();
+                    }).get();
+
+
+                dataForm.nis = $(".js-input[name='nis[]']")
+                    .map(function() {
+                        let data = {};
+                        if ($(this).val() == "") {
+                            data.title = 'Peringatan !';
+                            data.message = 'Harap isi form NIS';
+                            data.type = 'warning';
+                            is_ok = 0;
+                            swalHandler(data);
+                        } else {
+                            datapost = {};
+                            datapost.nis = $(this).val();
+                            $.ajax({
+                                type: "POST",
+                                url: "<?= base_url(); ?>Siswa/Prakerin/Daftar/cekFormSiswa",
+                                data: datapost,
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status === true) {
+                                        is_ok = 1;
+                                        return $(this).val();
+                                    } else {
+                                        is_ok = 0;
+                                        Swal.fire(
+                                            'Peringatan !',
+                                            response.message,
+                                            'warning'
+                                        )
+                                    }
+                                }
+                            });
+                        }
+                    }).get();
+
+
+                console.log({
+                    is_ok
+                });
+            })
+
+            function postData(data) {
                 $.ajax({
                     type: "POST",
                     url: "<?= base_url(); ?>Siswa/Prakerin/Daftar/addPendaftaran",
-                    data: dataForm,
+                    data: data,
                     dataType: "json",
                     success: function(response) {
+                        console.log("ok");
                         console.log({
                             response
                         });
                     }
                 });
-            })
-
-
+            }
         });
     </script>
 <?php else : ?>

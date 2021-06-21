@@ -26,64 +26,64 @@ class Daftar extends CI_Controller
 
     public function addPendaftaran()
     {
-        $pendaftaran = [];
-        $praktik = [];
-
+        $result = [];
         $postData = $this->input->post();
-        $tempatPraktik = $postData['tempat_praktik'];
+        $result['post-data'] = $postData;
+        $result['status'] = false;
 
-        if (isset($postData['kelompok'])) {
-            $kelompok = $postData['kelompok'];
-            $arrBeforeMerge = [];
-            foreach ($kelompok as $k => $v) {
-                $mappingKelompok = [];
-                foreach ($v as $key => $value) {
-                    if ($value['name'] == 'nis') {
-                        $a = $this->db->get_where('m_siswa', ['nis' => $value['value']]);
-                        if ($a->num_rows() > 0) {
-                            echo '<pre>';
-                            print_r($a);
-                            echo '</pre>';
-                            exit;
-                            $data = $a->result_array();
-                            $mappingKelompok['id_siswa'] = $data['id_siswa'];
-                        }
-                    }
-                    $mappingKelompok[$value['name']] = $value['value'];
-                }
-                array_push($arrBeforeMerge, $mappingKelompok);
-            }
-            $kelompok = $arrBeforeMerge;
-        }
+        // if ($postData['name']) {
+        //     foreach ($postData['name'] as $key => $value) {
+        //         if ($value = '') {
 
-        $arrTempatPraktik = [];
-        if (isset($tempatPraktik)) {
-            foreach ($tempatPraktik as $key => $value) {
-                $arrTempatPraktik[$value['name']] = $value['value'];
-            }
-        }
+        //         } else {
+        //         }
+        //     }
+        // }
 
-        $pengaju = $postData['pengaju'];
-        if (isset($pengaju)) {
-            $arrPengaju = [];
-            foreach ($pengaju as $key => $value) {
-                $arrPengaju[$value['name']] = $value['value'];
-            }
-            $mappingPengaju = [];
-            $mappingPengaju['id_siswa'] = $arrPengaju['id_siswa'];
-            $mappingPengaju['publish'] = 1;
-            array_push($pendaftaran, $mappingPengaju);
+        // $siswa = [];
+        // if ($postData['nis']) {
+        //     foreach ($postData['nis'] as $key => $value) {
+        //         $getidsiswa = $this->db->get_where('m_siswa', ['nis' => $value]);
+        //         if ($getidsiswa->num_rows() > 0) {
+        //         }
+        //     }
+        // }
 
-            $mappingPraktik = [];
-            $mappingPraktik['id_siswa'] = $mappingPengaju['id_siswa'];
-            if (isset($kelompok)) {
-                $mappingPraktik['is_group'] = 1;
-                foreach ($kelompok as $key => $value) {
-                }
+        echo json_encode($result);
+    }
+
+    public function cekSiswa($data)
+    {
+        if (empty($data)) {
+            $get = $this->db->get_where('m_siswa', ['nis' => $data]);
+            if ($get->num_rows() > 0) {
+                $result = $get->result();
+                return $result->id_siswa;
+            } else {
+                return false;
             }
         }
+    }
 
-        echo json_encode($kelompok);
+    public function cekFormSiswa()
+    {
+        $result = [];
+        $data = $this->input->post('nis');
+        $get = $this->db->get_where('m_siswa', ['nis' => $data]);
+        if ($get->num_rows() > 0) {
+            $data = $get->result();
+            $get = $this->db->get_where('kelompok', ['id_siswa' => $data->id_siswa]);
+            if ($get->num_rows() > 0) {
+                $result['status'] = false;
+                $result['message'] = 'nis telah terdaftar di dalam database';
+            } else {
+                $result['status'] = true;
+            }
+        } else {
+            $result['status'] = false;
+            $result['message'] = 'nis tidak ditemukan di dalam database';
+        }
+        echo json_encode($result);
     }
 
     public function save($array)
