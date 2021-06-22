@@ -52,6 +52,20 @@ class Daftar extends CI_Controller
         echo json_encode($result);
     }
 
+	public function getSiswa($nis){
+
+		$siswa = $this->db->get_where('m_siswa', ['nis' => $nis]);
+		if($siswa->num_rows()){
+			$res['success']= true;
+			$siswa = $siswa->row();
+			$siswa = ["id"=> $siswa->id_siswa, "nama"=> $siswa->nama];
+			$res['data']= $siswa;
+		}else{
+			$res['success']= false;
+		}
+		echo json_encode($res);
+	}
+
     public function cekSiswa($data)
     {
         if (empty($data)) {
@@ -86,11 +100,61 @@ class Daftar extends CI_Controller
         echo json_encode($result);
     }
 
-    public function save($array)
+    public function save()
     {
-        $pendaftaran = $array['pendaftaran'];
-        $praktik = $array['praktik'];
-        $a = $this->db->insert('pendaftaran', $pendaftaran);
-        $b = $this->db->insert('praktik', $praktik);
+		$errors = [];
+
+		$nis = $this->input->post("nis");
+		$name = $this->input->post("nama");
+		$namaInstansi = $this->input->post("nama_instansi");
+		$alamatInstansi = $this->input->post("alamat_instansi");
+		$idSiswa = [];
+		if($namaInstansi==""){
+			$errors[] = "Nama instansi belum diisi";
+		}
+		if($alamatInstansi==""){
+			$errors[] = "Alamat instansi belum diisi";
+		}
+		foreach ($nis as $index => $value) {
+			if($value!=""){
+				$siswa = $this->db->get_where('m_siswa', ["nis"=>$value]);
+
+				if($name[$index] == ""){
+					$errors[] = "Nama pada nis: $value belum terisi";
+				}
+				if($siswa->num_rows() > 0){
+					$id = $siswa->row('id_siswa');
+					$idSiswa[] = $id;
+					$inGroup = ($this->db->get_where("kelompok",["id_siswa"=>$id])->num_rows() > 0 );
+					if($inGroup){
+						$errors[]= "NIS $value sudah terdaftar pada kelompok lain";
+					}
+				}else{
+					$errors[] = "NIS $value Invalid";
+				}
+			}
+		}
+
+		if(count($errors)>0){
+			$res["success"]=false;
+			$res["message"]=$errors[0];
+			$res["messages"]=$errors;
+			
+		}else{
+			$data = [
+				"nama_instansi"=>$namaInstansi,
+				"alamat_instansi" => $alamatInstansi,
+				"status"=> "pending",
+				"publish"=> 1
+			];
+			$this->db->insert('praktik',$data);
+			$praktik_id = $this->db->insert_id();
+
+			foreach ($idSiswa as $id){
+				$this->db->insert('kelompok',['id_praktik'=>$praktik_id,"id_siswa"=>$id]);
+			}
+			$res["success"]=true;
+		}
+		echo json_encode($res);
     }
 }
