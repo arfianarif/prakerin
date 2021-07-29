@@ -57,7 +57,7 @@ class Login extends CI_Controller
 					break;
 			}
 		} else {
-			echo "Error";
+			echo "User tidak ditemukan";
 		}
 	}
 	public function logout()

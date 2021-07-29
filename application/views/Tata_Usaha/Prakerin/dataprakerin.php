@@ -50,6 +50,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
                     <button id="js-btn-global-modal" class="btn btn-primary" type="button" data-params="null">Lorem Ipsum</button>
+
                 </div>
             </form>
         </div>
@@ -112,7 +113,7 @@
             $.get(url + 'ById', data,
                 function(res, textStatus, jqXHR) {
                     if (res.status) {
-                        modalHandlerEdit(res.data);
+                        modalHandlerEdit(res);
                     } else {
 
                     }
@@ -210,9 +211,7 @@
         }
 
         modalHandlerEdit = async (data) => {
-            console.log({
-                data
-            });
+
             let
                 selected = '',
                 btnProcess = '',
@@ -229,7 +228,7 @@
                 'selesai'
             ];
             $.each(selectArr, function(i, v) {
-                if (v == data.status) {
+                if (v == data.praktik.status) {
                     select += `
                     <option value="${v}" selected>${v}</option>
                  `;
@@ -240,7 +239,7 @@
                 }
 
             });
-            switch (data.status) {
+            switch (data.praktik.status) {
                 case "pending":
                     selected = 'selected';
                     break;
@@ -256,29 +255,34 @@
                     break;
             }
 
+            let anggota = '';
+
+            $.each(data.kelompok, function(i, v) {
+                anggota += `
+                    <li class="list-group-item"><b>Nama</b> : ${v.nama} || <b>NIS</b> : ${v.nis}</li>
+                `;
+            });
+
             mBody += `
 				<div class="row">
-					<input hidden type="text" class="form-control" name="id_praktik" value="${data.id_praktik}">
+					<input hidden type="text" class="form-control" name="id_praktik" value="${data.praktik.id_praktik}">
 					<div class="col-md-6">
-						<div class="form-group">
-							<label class="">NIS</label>
-							<input type="text" class="form-control" name="nis" placeholder="${data.nis}" readonly>
-						</div>
-						<div class="form-group">
-							<label class="">Nama</label>
-							<input type="text" class="form-control" name="nama" placeholder="${data.nama}" readonly>
-						</div>
+                        <div class ="kelompok-wrapper mb-3">
+                            <label class="">Anggota</label>
+                            <ul>
+                                ${anggota}
+                            </ul>
+                        </div>
 						<div class="form-group">
 							<label class="">Nama Instansi</label>
-							<input type="text" class="form-control" name="nama_instansi" placeholder="${data.nama_instansi}">
+							<input type="text" class="form-control" name="nama_instansi" placeholder="${data.praktik.nama_instansi}">
 						</div>
 						<div class="form-group">
 							<label class="">Alamat Instansi</label>
-							<input type="text" class="form-control" name="alamat_instansi" placeholder="${data.alamat_instansi}">
+							<input type="text" class="form-control" name="alamat_instansi" placeholder="${data.praktik.alamat_instansi}">
 						</div>
 					</div>
 					<div class="col-md-6">
-						
 						<div class="form-group">
 							<label class="">Status</label>
 							<select class="form-control" id="" name="status">
@@ -334,7 +338,9 @@
 
         editDataSiswa = async () => {
             let data = $('#js-form').serialize();
-
+            console.log({
+                data
+            });
             $.ajax({
                 type: "POST",
                 url: "<?= base_url() ?>" + 'Tata_Usaha/Prakerin/editData',
@@ -359,5 +365,12 @@
                 }
             });
         }
+
+        $(document).on('click', '.js-print-btn', (e) => {
+            let id = $(e.target).data('id');
+            let url = '<?= base_url(); ?>' + `Tata_Usaha/Prakerin/print?id=${id}`;
+            window.open(url, '_blank');
+        })
+
     });
 </script>

@@ -63,7 +63,8 @@ class Prakerin extends CI_Controller
         } else {
             $orderBy = 'DESC';
         }
-        $sql = "SELECT * FROM praktik as p LEFT JOIN kelompok as k on k.id_praktik = p.id_praktik LEFT JOIN m_siswa as s on s.id_siswa = k.id_siswa WHERE p.publish = 1";
+
+        $sql = "SELECT * FROM praktik as p LEFT JOIN kelompok as k on k.id_praktik = p.id_praktik LEFT JOIN m_siswa as s on s.id_siswa = k.id_siswa WHERE p.publish = 1 GROUP BY p.id_praktik";
         $sqlCountFiltered = "SELECT count(p.id_praktik) as jumlah FROM praktik as p LEFT JOIN kelompok as k on k.id_praktik = p.id_praktik LEFT JOIN m_siswa as s on s.id_siswa = k.id_siswa";
         $sqlCountTotal = "SELECT count(p.id_praktik) as jumlah FROM praktik as p LEFT JOIN kelompok as k on k.id_praktik = p.id_praktik LEFT JOIN m_siswa as s on s.id_siswa = k.id_siswa";
 
@@ -140,11 +141,15 @@ class Prakerin extends CI_Controller
     {
         $id = $this->input->get('id');
         $result = [];
-        $sql = "SELECT * FROM praktik as p LEFT JOIN kelompok as k on k.id_praktik = p.id_praktik LEFT JOIN m_siswa as s on s.id_siswa = k.id_siswa WHERE p.id_praktik = $id";
+        $sql = "SELECT * FROM praktik WHERE id_praktik = $id";
         $getData = $this->db->query($sql);
+        $kelompok = "SELECT * FROM kelompok LEFT JOIN m_siswa ON m_siswa.id_siswa = kelompok.id_siswa WHERE id_praktik = $id";
+        $kelompok = $this->db->query($kelompok);
+
         if ($getData->num_rows() > 0) {
             $result['status'] = true;
-            $result['data'] = $getData->row();
+            $result['praktik'] = $getData->row();
+            $result['kelompok'] = $kelompok->result();
         } else {
             $result['false'] = true;
         }
@@ -255,5 +260,19 @@ class Prakerin extends CI_Controller
         }
 
         echo json_encode($result);
+    }
+
+    public function print()
+    {
+        $id = $this->input->get('id');
+        $id = $this->input->get('id');
+        $result = [];
+        $sql = "SELECT * FROM praktik WHERE id_praktik = $id";
+        $getData = $this->db->query($sql);
+        $kelompok = "SELECT * FROM kelompok LEFT JOIN m_siswa ON m_siswa.id_siswa = kelompok.id_siswa WHERE id_praktik = $id";
+        $kelompok = $this->db->query($kelompok);
+        $this->data['kelompok'] = $kelompok->result();
+        $this->data['praktik'] = $getData->row();
+        $this->load->view('Tata_Usaha/Prakerin/print', $this->data);
     }
 }
