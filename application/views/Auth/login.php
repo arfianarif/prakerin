@@ -3,9 +3,13 @@
 		<h5 class="text-gray-900 mb-4">Sistem PRAKERIN</h5>
 		<h3 class="text-gray-900 mb-4">Praktek Kerja Industri</h3>
 	</div>
-	<div class="text-center">
+	<div class="logo d-flex flex-row align-items-center justify-content-center">
+		<img src="<?= base_url() . "assets/img/logo.png"; ?>" alt="">
+	</div>
+	<div class="text-center m-4">
 		<p class="text-gray-900 mb-4">SMK PURNAMA TEMPURAN</p>
 	</div>
+
 	<?= form_open('Auth/Login/authentication'); ?>
 	<div class="mt-5">
 		<div class="form-group">

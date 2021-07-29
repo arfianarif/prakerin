@@ -26,71 +26,135 @@ class Daftar extends CI_Controller
 
     public function addPendaftaran()
     {
-        $pendaftaran = [];
-        $praktik = [];
-
+        $result = [];
         $postData = $this->input->post();
-        $tempatPraktik = $postData['tempat_praktik'];
+        $result['post-data'] = $postData;
+        $result['status'] = false;
 
-        if (isset($postData['kelompok'])) {
-            $kelompok = $postData['kelompok'];
-            $arrBeforeMerge = [];
-            foreach ($kelompok as $k => $v) {
-                $mappingKelompok = [];
-                foreach ($v as $key => $value) {
-                    if ($value['name'] == 'nis') {
-                        $a = $this->db->get_where('m_siswa', ['nis' => $value['value']]);
-                        if ($a->num_rows() > 0) {
-                            echo '<pre>';
-                            print_r($a);
-                            echo '</pre>';
-                            exit;
-                            $data = $a->result_array();
-                            $mappingKelompok['id_siswa'] = $data['id_siswa'];
-                        }
-                    }
-                    $mappingKelompok[$value['name']] = $value['value'];
-                }
-                array_push($arrBeforeMerge, $mappingKelompok);
-            }
-            $kelompok = $arrBeforeMerge;
-        }
+        // if ($postData['name']) {
+        //     foreach ($postData['name'] as $key => $value) {
+        //         if ($value = '') {
 
-        $arrTempatPraktik = [];
-        if (isset($tempatPraktik)) {
-            foreach ($tempatPraktik as $key => $value) {
-                $arrTempatPraktik[$value['name']] = $value['value'];
-            }
-        }
+        //         } else {
+        //         }
+        //     }
+        // }
 
-        $pengaju = $postData['pengaju'];
-        if (isset($pengaju)) {
-            $arrPengaju = [];
-            foreach ($pengaju as $key => $value) {
-                $arrPengaju[$value['name']] = $value['value'];
-            }
-            $mappingPengaju = [];
-            $mappingPengaju['id_siswa'] = $arrPengaju['id_siswa'];
-            $mappingPengaju['publish'] = 1;
-            array_push($pendaftaran, $mappingPengaju);
+        // $siswa = [];
+        // if ($postData['nis']) {
+        //     foreach ($postData['nis'] as $key => $value) {
+        //         $getidsiswa = $this->db->get_where('m_siswa', ['nis' => $value]);
+        //         if ($getidsiswa->num_rows() > 0) {
+        //         }
+        //     }
+        // }
 
-            $mappingPraktik = [];
-            $mappingPraktik['id_siswa'] = $mappingPengaju['id_siswa'];
-            if (isset($kelompok)) {
-                $mappingPraktik['is_group'] = 1;
-                foreach ($kelompok as $key => $value) {
-                }
-            }
-        }
-
-        echo json_encode($kelompok);
+        echo json_encode($result);
     }
 
-    public function save($array)
+	public function getSiswa($nis){
+
+		$siswa = $this->db->get_where('m_siswa', ['nis' => $nis]);
+		if($siswa->num_rows()){
+			$res['success']= true;
+			$siswa = $siswa->row();
+			$siswa = ["id"=> $siswa->id_siswa, "nama"=> $siswa->nama];
+			$res['data']= $siswa;
+		}else{
+			$res['success']= false;
+		}
+		echo json_encode($res);
+	}
+
+    public function cekSiswa($data)
     {
-        $pendaftaran = $array['pendaftaran'];
-        $praktik = $array['praktik'];
-        $a = $this->db->insert('pendaftaran', $pendaftaran);
-        $b = $this->db->insert('praktik', $praktik);
+        if (empty($data)) {
+            $get = $this->db->get_where('m_siswa', ['nis' => $data]);
+            if ($get->num_rows() > 0) {
+                $result = $get->result();
+                return $result->id_siswa;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public function cekFormSiswa()
+    {
+        $result = [];
+        $data = $this->input->post('nis');
+        $get = $this->db->get_where('m_siswa', ['nis' => $data]);
+        if ($get->num_rows() > 0) {
+            $data = $get->result();
+            $get = $this->db->get_where('kelompok', ['id_siswa' => $data->id_siswa]);
+            if ($get->num_rows() > 0) {
+                $result['status'] = false;
+                $result['message'] = 'nis telah terdaftar di dalam database';
+            } else {
+                $result['status'] = true;
+            }
+        } else {
+            $result['status'] = false;
+            $result['message'] = 'nis tidak ditemukan di dalam database';
+        }
+        echo json_encode($result);
+    }
+
+    public function save()
+    {
+		$errors = [];
+
+		$nis = $this->input->post("nis");
+		$name = $this->input->post("nama");
+		$namaInstansi = $this->input->post("nama_instansi");
+		$alamatInstansi = $this->input->post("alamat_instansi");
+		$idSiswa = [];
+		if($namaInstansi==""){
+			$errors[] = "Nama instansi belum diisi";
+		}
+		if($alamatInstansi==""){
+			$errors[] = "Alamat instansi belum diisi";
+		}
+		foreach ($nis as $index => $value) {
+			if($value!=""){
+				$siswa = $this->db->get_where('m_siswa', ["nis"=>$value]);
+
+				if($name[$index] == ""){
+					$errors[] = "Nama pada nis: $value belum terisi";
+				}
+				if($siswa->num_rows() > 0){
+					$id = $siswa->row('id_siswa');
+					$idSiswa[] = $id;
+					$inGroup = ($this->db->get_where("kelompok",["id_siswa"=>$id])->num_rows() > 0 );
+					if($inGroup){
+						$errors[]= "NIS $value sudah terdaftar pada kelompok lain";
+					}
+				}else{
+					$errors[] = "NIS $value Invalid";
+				}
+			}
+		}
+
+		if(count($errors)>0){
+			$res["success"]=false;
+			$res["message"]=$errors[0];
+			$res["messages"]=$errors;
+			
+		}else{
+			$data = [
+				"nama_instansi"=>$namaInstansi,
+				"alamat_instansi" => $alamatInstansi,
+				"status"=> "pending",
+				"publish"=> 1
+			];
+			$this->db->insert('praktik',$data);
+			$praktik_id = $this->db->insert_id();
+
+			foreach ($idSiswa as $id){
+				$this->db->insert('kelompok',['id_praktik'=>$praktik_id,"id_siswa"=>$id]);
+			}
+			$res["success"]=true;
+		}
+		echo json_encode($res);
     }
 }
