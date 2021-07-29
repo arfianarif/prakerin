@@ -72,6 +72,9 @@
             "ajax": url,
             "pageLength": 100,
             "dom": 'Bfrtip',
+            "order": [
+                [0, "desc"]
+            ],
             "buttons": [{
                     text: 'EXCEL',
                     className: 'btn btn-success',
@@ -225,6 +228,7 @@
             selectArr = [
                 'pending',
                 'disetujui',
+                'ditolak',
                 'selesai'
             ];
             $.each(selectArr, function(i, v) {
